@@ -1,0 +1,79 @@
+
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight'  # default
+# RECIPE_DIR: 'test_ym_without_feat'
+# RECIPE_DIR: 'test_ym_with_hardtanh'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistyeast'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_fold'
+# RECIPE_DIR: 'test_charge_ce_weight_wo_nistrat_fold' ##
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_trian_exp'
+# RECIPE_DIR: 'test_ym_with_tanhax3'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_0'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_1'
+# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_2'
+# RECIPE_DIR: 'test_feat2_conv2d_1'
+RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_fix_minus1_fold'
+
+
+
+### DEBUG ###
+DELETE_FILES: True
+DEBUG: False
+PRINT_EVERY: 10
+
+### INPUT ###
+# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt.csv' # default
+# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat_add_exp.csv' 
+# INPUT_DATA: './input/ym_nist.csv'
+# INPUT_DATA: './input/ym_val_4.csv'
+# INPUT_DATA_2: './input/ym_val_4.csv'
+# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistyeast.csv'
+# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat.csv'
+# INPUT_DATA: './input/rat_nist_test_set.csv'
+# INPUT_DATA: './input/yeast_nist_test_set.csv'
+# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat_fix_minus1.csv'
+INPUT_DATA: './input/rat_nist_test_set_fix_minus1.csv'
+INFER_DATA: './input/infer_5mer_set2.csv'
+CHECKPOINT_DIR: 'checkpoints/'
+N_FOLD: 7 # 7
+
+### TRAIN ###
+TRAIN:
+  NUM_EPOCHS: 200
+  BATCH_SIZE: 32 #32 #256 #1024
+  NUM_WORKERS: 4
+  EARLY_STOP_EPOCH: 25
+
+### EVAL ###
+EVAL:
+  BATCH_SIZE: 128 #256 #1024
+  NUM_WORKERS: 4
+
+### MODEL ###
+MODEL:
+  # ENCODER: PeptideIRTNet2
+  ENCODER: PeptideIRTNet3
+  # ENCODER: PeptideIRTNet4
+  PARAMS:
+    INPUT_WORD_SIZE: 22
+    EMBED_SIZE: 32
+    MAX_SEQUENCE_LEN: 15
+    HIDDEN_SIZE: 128 #256
+    LAYERS: 1
+
+### LOSS ###
+LOSS:
+  NAME: 'mse'
+
+### OPTIMIZER ###
+OPTIMIZER:
+  NAME: 'adam'
+  LR: 0.001 # 0.001
+
+### SCHEDULER ###
+SCHEDULER:
+  NAME: 'ReduceLROnPlateau'
+  PARAMS:
+    GAMMA: 0.1
+    MODE: 'min'
+    PATIENCE: 7
