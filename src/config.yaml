@@ -13,7 +13,7 @@
 # RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_2'
 # RECIPE_DIR: 'test_feat2_conv2d_1'
 RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_fix_minus1_fold'
-
+RECIPE_DIR: 'prai_frag'
 
 
 ### DEBUG ###
@@ -35,7 +35,7 @@ PRINT_EVERY: 10
 INPUT_DATA: './input/rat_nist_test_set_fix_minus1.csv'
 INFER_DATA: './input/infer_5mer_set2.csv'
 CHECKPOINT_DIR: 'checkpoints/'
-N_FOLD: 7 # 7
+N_FOLD: 2 # 7
 
 ### TRAIN ###
 TRAIN:
