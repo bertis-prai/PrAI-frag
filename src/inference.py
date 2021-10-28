@@ -1,6 +1,4 @@
 import os
-import random
-import numpy as np
 import pandas as pd
 import torch
 
@@ -27,10 +25,9 @@ def find_index(data, target):
 
 def inference(config, new_check_dir):
     checkpoint = get_initial_checkpoint(config, new_check_dir)
+    model = torch.jit.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/pre_train_model.zip')
     if torch.cuda.is_available():
-        model = torch.load(checkpoint, map_location='cuda:0')
-    else:
-        model = torch.load(checkpoint, map_location='cpu')
+        model.cuda()
     model.eval()
 
     infer_df = pd.read_csv(config.INFER_DATA)

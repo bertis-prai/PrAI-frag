@@ -23,9 +23,3 @@ def pearsonr(x, y):
     r_den = torch.norm(xm, 2) * torch.norm(ym, 2)
     r_val = r_num / r_den
     return r_val
-
-# import sys
-# sys.path.append('./')
-# from utils.config import *
-# config = load('./src/config.yaml')
-# get_initial_checkpoint(config, 'loss_mse_batchsize_128_foldNum_2')

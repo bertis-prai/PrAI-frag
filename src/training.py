@@ -129,7 +129,7 @@ def run(config: object, checkpoint_dir: object, batch: object, fold_num: object)
 
 
     ###model
-    model = torch.jit.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/model.zip')
+    model = torch.jit.load('./logs/prai_frag/model.zip')
     model = model.cuda()
 
     ###optimizer

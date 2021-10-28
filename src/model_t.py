@@ -9,7 +9,7 @@ from utils.models import *
 
 from collections import OrderedDict
 
-# path = "./logs/top_loss_0.0295_loss_0.016888_epoch_0032.pth"
+# path = "./logs/prai_frag/top_loss_0.0296_loss_0.017000_epoch_0031.pth"
 # model = torch.load(path, map_location='cpu')
 
 # print(model.state_dict())
@@ -18,7 +18,6 @@ from collections import OrderedDict
 
 config = utils.config.load('./src/config.yaml')
 model = PeptideFragNet(config)
-model.cuda()
 # model.load_state_dict(torch.load("./logs/prai_frag/prai_frag_wight.pth"))
 
 # weights = torch.load("./logs/prai_frag/prai_frag_wight.pth")
