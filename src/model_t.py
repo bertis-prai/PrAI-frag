@@ -9,7 +9,7 @@ from utils.models import *
 
 from collections import OrderedDict
 
-# path = "./logs/test_w_window_slide_feat2_more_weight_wo_nistrat_fix_minus1_fold/loss_mse_batchsize_128_foldNum_2/top_loss_0.0499_loss_0.008516_epoch_0046.pth"
+# path = "./logs/top_loss_0.0295_loss_0.016888_epoch_0032.pth"
 # model = torch.load(path, map_location='cpu')
 
 # print(model.state_dict())
@@ -18,12 +18,13 @@ from collections import OrderedDict
 
 config = utils.config.load('./src/config.yaml')
 model = PeptideFragNet(config)
+model.cuda()
 # model.load_state_dict(torch.load("./logs/prai_frag/prai_frag_wight.pth"))
 
 # weights = torch.load("./logs/prai_frag/prai_frag_wight.pth")
 
-# print(type(weights))
-# print(list(weights.keys()))
+# # print(type(weights))
+# # print(list(weights.keys()))
 
 # print(model.state_dict().keys())
 # new_keys = model.state_dict().keys()
@@ -36,12 +37,12 @@ model = PeptideFragNet(config)
 # print(model.state_dict())
 # torch.save(model.state_dict(), "./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/prai_frag_wight_rename.pth")
 
-model.load_state_dict(torch.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/prai_frag_wight_rename.pth'))
-model.eval()
+# model.load_state_dict(torch.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/prai_frag_wight_rename.pth'))
+# model.eval()
 
 x = torch.ones(8,1,15)
 feat1 = torch.ones(8,4)
-feat2 = torch.ones(8,42)
+feat2 = torch.ones(8,12,4)
 
 print(model(x, feat1, feat2))
 

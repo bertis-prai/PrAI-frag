@@ -127,20 +127,18 @@ def data_divide(input_df,x_cols,y_cols,x_feat, kfold = 10, fold_num = 0): #input
 
 def window_as_feat(input_seq):
     n = np.array(input_seq)
-    zeroes = np.zeros((len(input_seq), 1))
-    nc = np.concatenate((zeroes, n, zeroes), 1)
     n_win = []
-    for index, row in enumerate(nc):
-        #if (index < 10):
-       for i in range(12):
-           j = i + 4
-           n_win.append(row[i:j])
+    for i in range(len(n)):
+        row = n[i]
+        row_win = []
+        for j in range(12):
+            row_win.append(row[j:j+4])
+        n_win.append(np.array(row_win, dtype=np.uint8))
     ar = np.array(n_win, dtype=np.uint8)
-    arr = ar.reshape(len(input_seq),48)
-    return arr
+    return ar
 
 
-def input_params(config, input_df_file, kfold=10, fold_num=7):
+def input_params(config, input_df_file, kfold=10, fold_num=2):
     df = pd.read_csv(input_df_file)
     if config.DEBUG:
         df = df[:10]
@@ -149,7 +147,6 @@ def input_params(config, input_df_file, kfold=10, fold_num=7):
     ##Define y value containing columns
     df_col_list = df.columns.to_list()
     ycols = [i for i in df_col_list if i.startswith('y')]
-    # print(ycols)
 
     ### X value contianing columns
     X_PEPTIDE_SEQUENCE_COLUMN = []
@@ -158,7 +155,6 @@ def input_params(config, input_df_file, kfold=10, fold_num=7):
 
     ### Define x feature containing columns
     x_feat_names = [i for i in df_col_list if i.startswith('f')]
-    print(x_feat_names)
 
     ### get k fold index (default is 10 fold, 0fold is base)###
     train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, train_seq, val_seq = \
@@ -171,16 +167,27 @@ def input_params(config, input_df_file, kfold=10, fold_num=7):
     val_y = np.asarray(val_y.values, dtype=np.float)
     val_x_feat = np.asarray(val_x_feat.values, dtype=np.float)
 
-    train_x = torch.cuda.LongTensor(train_x)
-    train_x_feat = torch.cuda.FloatTensor(train_x_feat)
-    train_x_feat2 = torch.cuda.FloatTensor(train_x_feat2)
-    train_y = torch.cuda.FloatTensor(train_y)
-    val_x = torch.cuda.LongTensor(val_x)
-    val_x_feat = torch.cuda.FloatTensor(val_x_feat)
-    val_x_feat2 = torch.cuda.FloatTensor(val_x_feat2)
-    val_y = torch.cuda.FloatTensor(val_y)
+    if torch.cuda.is_available():
+        train_x = torch.cuda.LongTensor(train_x)
+        train_x_feat = torch.cuda.FloatTensor(train_x_feat)
+        train_x_feat2 = torch.cuda.FloatTensor(train_x_feat2)
+        train_y = torch.cuda.FloatTensor(train_y)
+        val_x = torch.cuda.LongTensor(val_x)
+        val_x_feat = torch.cuda.FloatTensor(val_x_feat)
+        val_x_feat2 = torch.cuda.FloatTensor(val_x_feat2)
+        val_y = torch.cuda.FloatTensor(val_y)
+    else:
+        train_x = torch.LongTensor(train_x)
+        train_x_feat = torch.FloatTensor(train_x_feat)
+        train_x_feat2 = torch.FloatTensor(train_x_feat2)
+        train_y = torch.FloatTensor(train_y)
+        val_x = torch.LongTensor(val_x)
+        val_x_feat = torch.FloatTensor(val_x_feat)
+        val_x_feat2 = torch.FloatTensor(val_x_feat2)
+        val_y = torch.FloatTensor(val_y)
 
     return train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, ycols, train_seq, val_seq
+
 
 
 def infer_input_params(input_df):

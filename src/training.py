@@ -2,7 +2,6 @@
 import os
 import random
 import numpy as np
-import pandas as pd
 import torch
 from torch.utils.data import DataLoader, TensorDataset, RandomSampler, SequentialSampler
 from datetime import datetime
@@ -14,12 +13,10 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 import utils
 from utils.confirm import *
 from utils.config import *
-from utils.models import *
 import torch.optim.lr_scheduler as lr_scheduler
 from dataset.dataset_windows import *
 
 ##basic settings
-
 config = utils.config.load('./src/config.yaml')
 
 
@@ -63,7 +60,6 @@ def eval_single_epoch(config, model, validation_dataloader, criterion, writer, e
 def train_single_epoch(config, model, train_dataloader, criterion, optimizer, writer, epoch, fold_num):
     model.train()
     train_avg_loss = 0.
-    total_ert_gap = 0.
     for index, (train_x, train_x_feat, train_y, train_x_feat2) in enumerate(train_dataloader):
         optimizer.zero_grad()
         y_pred = model(train_x, train_x_feat, train_x_feat2)
@@ -85,7 +81,6 @@ def train_single_epoch(config, model, train_dataloader, criterion, optimizer, wr
     writer.add_scalar('fold_num_{}/train/lr'.format(fold_num), optimizer.param_groups[0]['lr'], epoch)
     writer.add_scalar('fold_num_{}/train/loss'.format(fold_num), train_avg_loss, epoch)
     writer.add_scalar('fold_num_{}/train/toploss'.format(fold_num), train_avg_toploss, epoch)
-    #.add_image('image', grid, 0)
     return train_avg_loss, train_avg_toploss
 
 
@@ -102,9 +97,6 @@ def train(config, model, train_dataloader, validation_dataloader, criterion, opt
         print('[{}/{}] train_loss={:.4f} train_toploss_={:.4f} val_loss={:.4f} val_toploss_={:.4f} time={:.2f}s lr={:.8f}'.format(
             epoch + 1, n_epochs, train_avg_loss, train_avg_toploss, val_avg_loss, val_avg_toploss, elapsed_time, optimizer.param_groups[0]["lr"]))
         scheduler.step(val_avg_toploss)
-
-        # train_loss_hist.append(train_avg_loss)
-        # val_loss_hist.append(val_avg_loss)
 
         if min_score > val_avg_loss: #val_addl6t4
             min_score = val_avg_loss #val_addl6t4
@@ -126,12 +118,6 @@ def run(config: object, checkpoint_dir: object, batch: object, fold_num: object)
     ##dataloading
     train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, ycols, train_seq, val_seq = \
         input_params(config, config.INPUT_DATA, fold_num=fold_num)
-    # train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, ycols  = \
-    #     input_params_feat2_2d(config, config.INPUT_DATA, fold_num=fold_num)
-    # train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, ycols = input_params_2(config, config.INPUT_DATA, config.INPUT_DATA_2)
-
-    #train_data = TensorDataset(train_x, train_x_feat, train_y, train_x_feat2.reshape(-1,4,12) ) #   train_x_feat
-    #validation_data = TensorDataset(val_x, val_x_feat, val_y, val_x_feat2.reshape(-1,4,12)) #   val_x_feat,
 
     train_data = TensorDataset(train_x, train_x_feat, train_y, train_x_feat2 ) #   train_x_feat
     validation_data = TensorDataset(val_x, val_x_feat, val_y, val_x_feat2)
@@ -143,7 +129,7 @@ def run(config: object, checkpoint_dir: object, batch: object, fold_num: object)
 
 
     ###model
-    model = PeptideFragNet(config) ######
+    model = torch.jit.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/model.zip')
     model = model.cuda()
 
     ###optimizer
@@ -171,8 +157,8 @@ def main(bsize, new_check_dir, fold_num):
 
 if __name__=="__main__":
     fold = True
-    bsize = 128
-    lchoice = "mse"
+    bsize = config.EVAL.BATCH_SIZE
+    lchoice = config.LOSS.NAME
 
     if fold:
         train_loss_hist = []

@@ -1,18 +1,5 @@
 
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight'  # default
-# RECIPE_DIR: 'test_ym_without_feat'
-# RECIPE_DIR: 'test_ym_with_hardtanh'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistyeast'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_fold'
-# RECIPE_DIR: 'test_charge_ce_weight_wo_nistrat_fold' ##
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_trian_exp'
-# RECIPE_DIR: 'test_ym_with_tanhax3'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_0'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_1'
-# RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_add_exp_2'
-# RECIPE_DIR: 'test_feat2_conv2d_1'
-RECIPE_DIR: 'test_w_window_slide_feat2_more_weight_wo_nistrat_fix_minus1_fold'
+
 RECIPE_DIR: 'prai_frag'
 
 
@@ -22,20 +9,10 @@ DEBUG: False
 PRINT_EVERY: 10
 
 ### INPUT ###
-# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt.csv' # default
-# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat_add_exp.csv' 
-# INPUT_DATA: './input/ym_nist.csv'
-# INPUT_DATA: './input/ym_val_4.csv'
-# INPUT_DATA_2: './input/ym_val_4.csv'
-# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistyeast.csv'
-# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat.csv'
-# INPUT_DATA: './input/rat_nist_test_set.csv'
-# INPUT_DATA: './input/yeast_nist_test_set.csv'
-# INPUT_DATA: './input/max_parsed1118_reparsed_final_wdb_fix2_wpro_cnt_wo_nistrat_fix_minus1.csv'
-INPUT_DATA: './input/rat_nist_test_set_fix_minus1.csv'
-INFER_DATA: './input/infer_5mer_set2.csv'
+
+INPUT_DATA: './input/Trainset_data.csv'
+INFER_DATA: ''
 CHECKPOINT_DIR: 'checkpoints/'
-N_FOLD: 2 # 7
 
 ### TRAIN ###
 TRAIN:
@@ -51,9 +28,6 @@ EVAL:
 
 ### MODEL ###
 MODEL:
-  # ENCODER: PeptideIRTNet2
-  ENCODER: PeptideIRTNet3
-  # ENCODER: PeptideIRTNet4
   PARAMS:
     INPUT_WORD_SIZE: 22
     EMBED_SIZE: 32

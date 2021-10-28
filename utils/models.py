@@ -29,7 +29,7 @@ class Multiply(nn.Module):
         result = result.cuda()
     for t in tensors:
         result *= t
-    return t
+    return result
 
 
 class Attention(nn.Module):
@@ -85,20 +85,21 @@ class PeptideFragNet(nn.Module):
         self.gru1 = nn.GRU(config.MODEL.PARAMS.EMBED_SIZE, hidden_size, bidirectional=True, batch_first=True)
         self.gru1_dropout = nn.Dropout(p=0.4)
         self.gru_attention = Attention(hidden_size * 2, config.MODEL.PARAMS.MAX_SEQUENCE_LEN)
-        self.linear = nn.Linear(hidden_size*2, hidden_size)
-        self.linear2 = nn.Linear(hidden_size*2, hidden_size*2)
-        self.featlinear = nn.Linear(4, 32)
+        self.linear = nn.Linear(hidden_size * 2, hidden_size)
+        self.linear2 = nn.Linear(hidden_size * 2, hidden_size *2)
+        self.featlinear = nn.Linear(4, 32 )
 
         self.feat2conv = nn.Sequential(
-            nn.Conv1d(1, 48, 4, stride=4), nn.ReLU(),
-            nn.Conv1d(48, 128, 2, stride=4), nn.LeakyReLU(0.3),
-            nn.Conv1d(128, 14, 1, stride=4),
+            nn.Conv2d(1, 48, (1, 4), stride=1), nn.ReLU(),
+            nn.Conv2d(48, 128, (2, 1), stride=1), nn.LeakyReLU(0.3),
+            nn.Conv2d(128, 14, (11, 1), stride=1),
             nn.Dropout(0.4),
         )
         self.feat2linear = nn.Linear(14, 224)
 
         self.multiply = Multiply()
 
+        self.linear_relu = nn.ReLU()
         self.leaky_relu = nn.LeakyReLU(0.3)
         self.dropout = nn.Dropout(0.1)
 
@@ -129,33 +130,35 @@ class PeptideFragNet(nn.Module):
             elif 'weight_hh' in name:
                 nn.init.orthogonal_(param)
 
+    
     def forward(self, x, x_feat, x_feat2):
         x = x.long()
         x = x.squeeze()
-        x_feat = x_feat.float() #64,4
-        x_feat = x_feat.unsqueeze(0) #64,4 --> 1,64,4
-        x_feat2 = x_feat2.float() #64,48
-        x_feat2 = x_feat2.unsqueeze(1) #64,48 --> 64,1,48
+        x_feat = x_feat.float()
+        x_feat = x_feat.unsqueeze(0) 
+        x_feat2 = x_feat2.float()
+        x_feat2 = x_feat2.unsqueeze(1)
 
-        h_embedding = self.embedding(x) ## batch X 15 X batch
-        h_gru1, _h1 = self.gru1(h_embedding)  ## 32 x 15 X 512 ## 2,32,256
+        h_embedding = self.embedding(x)
+        h_gru1, _h1 = self.gru1(h_embedding)
         h_gru1 = self.gru1_dropout(h_gru1)
-        h_gru_atten = self.gru_attention(h_gru1) # ## 32 x 15 X 512
+        h_gru_atten = self.gru_attention(h_gru1)
         hgrudrop = self.dropout(h_gru_atten)
-        hgrudrop = self.leaky_relu(hgrudrop)## 32 x 512
-        h_gru_lin = self.linear2(hgrudrop) ## 32 x 256
+        hgrudrop = self.leaky_relu(hgrudrop)
+        h_gru_lin = self.linear2(hgrudrop)
 
-        x_feat = self.featlinear(x_feat) #1,64,4 --> 1, 64,128
-        x_feat = torch.transpose(x_feat, 0, 1) # 1,64,128 --> 64,1,128
-        x_feat = x_feat.squeeze(1) #64,1,128 --> 64,128
+        x_feat = self.featlinear(x_feat)
+        x_feat = torch.transpose(x_feat, 0, 1)
+        x_feat = x_feat.squeeze(1) 
 
-        x_feat2 = self.feat2conv(x_feat2) #64,1,48 --> 64,14,1, stride size matters for dim2
-        x_feat2 = x_feat2.unsqueeze(0) #64,14,1 --> 1,64,14,1
-        x_feat2 = x_feat2.squeeze(3) #1,64,14
+        x_feat2 = self.feat2conv(x_feat2)
+        x_feat2 = x_feat2.squeeze()
+        x_feat2 = x_feat2.unsqueeze(0) 
 
-        x_feat2 = self.feat2linear(x_feat2) #1,64,128
+        x_feat2 = self.feat2linear(x_feat2) #
         x_feat2 = x_feat2.squeeze()
         x_feat=torch.cat([x_feat, x_feat2], dim=1)
+        
         repeat_vector_input = self.multiply([h_gru_lin, x_feat])
         repeat_vector_input = repeat_vector_input.unsqueeze(1)
         repeat_vector_output = repeat_vector_input.repeat(1, self.seq_len, 2)
@@ -163,8 +166,8 @@ class PeptideFragNet(nn.Module):
         hgru2 = self.gru_attention2(hgru2)
 
         feature_extracted = self.dropout(hgru2)
-        feature_extracted = self.leaky_relu(feature_extracted)## 80
+        feature_extracted = self.leaky_relu(feature_extracted)
         feature_extracted = feature_extracted.squeeze(1)
         feature_extracted = self.linear3(feature_extracted)
-        prediction = self.prediction(feature_extracted) ## fcn out ## 80 x 16 x 1 -> last is 1
+        prediction = self.prediction(feature_extracted) 
         return prediction
