@@ -20,8 +20,6 @@ from dataset.dataset_windows import *
 config = utils.config.load('./src/config.yaml')
 
 
-torch.cuda.is_available() #cuda
-device = torch.device("cuda") #or cpu
 nowlog = datetime.now()
 timelog = nowlog.strftime("%H%M")
 
@@ -102,7 +100,7 @@ def train(config, model, train_dataloader, validation_dataloader, criterion, opt
             min_score = val_avg_loss #val_addl6t4
             print(f"improved_score{val_avg_toploss}, save checkpoint")
             checkpoint_path = os.path.join(checkpoint_dir, 'top_loss_%.4f_loss_%04f_epoch_%04d.pth' % ( val_avg_toploss, val_avg_loss, epoch))
-            torch.save(model, checkpoint_path)
+            torch.save(model.state_dict(), checkpoint_path)
             epochs_no_improve = 0
         else:
             epochs_no_improve += 1
@@ -129,8 +127,11 @@ def run(config: object, checkpoint_dir: object, batch: object, fold_num: object)
 
 
     ###model
-    model = torch.jit.load('./logs/prai_frag/model.zip')
-    model = model.cuda()
+    if torch.cuda.is_available():
+        model = torch.jit.load('./logs/prai_frag/model_gpu.zip')
+    else:
+        model = torch.jit.load('./logs/prai_frag/model.zip')
+    
 
     ###optimizer
     if config.OPTIMIZER.NAME == 'adam':
@@ -138,13 +139,13 @@ def run(config: object, checkpoint_dir: object, batch: object, fold_num: object)
 
     ###loss
     if config.LOSS.NAME == 'mse':
-        criterion = torch.nn.MSELoss(reduction='mean')  # torch.nn.BCEWithLogitsLoss(reduction='mean')
+        criterion = torch.nn.MSELoss(reduction='mean')
+    elif config.LOSS.NAME == 'addl':
+        criterion = torch.nn.MSELoss(reduction='mean')
 
     ### scheduler ###
     if config.SCHEDULER.NAME == 'ReduceLROnPlateau':
         scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode=config.SCHEDULER.PARAMS.MODE, factor=config.SCHEDULER.PARAMS.GAMMA, patience=config.SCHEDULER.PARAMS.PATIENCE)
-
-
 
     train(config, model, train_dataloader, validation_dataloader, criterion, optimizer, scheduler, writer, checkpoint_dir, fold_num)
 
