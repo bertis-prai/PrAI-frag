@@ -4,7 +4,6 @@ import torch
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-# import utils
 from utils.confirm import *
 from utils.config import *
 
@@ -23,11 +22,11 @@ def find_index(data, target):
     return res
 
 
-def inference(config, new_check_dir):
-    checkpoint = get_initial_checkpoint(config, new_check_dir)
-    model = torch.jit.load('./logs/prai_frag/loss_mse_batchsize_128_foldNum_2/pre_train_model.zip')
-    if torch.cuda.is_available():
-        model.cuda()
+def inference(config, new_check_dir, name):
+    checkpoint = get_initial_checkpoint(config, new_check_dir, name=name)
+    model = torch.jit.load(checkpoint)
+    # if torch.cuda.is_available():
+    #     model.cuda()
     model.eval()
 
     infer_df = pd.read_csv(config.INFER_DATA)
@@ -42,13 +41,12 @@ def inference(config, new_check_dir):
     
     with torch.no_grad():
         prediction = model(x, x_feat, x_feat2)
-        # print(prediction)
 
         prediction = prediction.cpu().numpy()
 
         pred_df = pd.DataFrame(prediction, columns=frag_list)
         pred_df = pd.concat([infer_df, pred_df], axis=1)
-        # print(pred_df)
+
         print(config.INFER_DATA.replace('.csv', '_pred.csv'))
         pred_df.to_csv(config.INFER_DATA.replace('.csv', '_pred.csv'), index=False)
 
@@ -56,17 +54,13 @@ def inference(config, new_check_dir):
 if __name__=="__main__":
 
     config = load('./src/config.yaml')
-    fold = False
+    lchoice = config.LOSS.NAME
 
-    if fold:
-        bsize = config.EVAL.BATCH_SIZE
-        lchoice = config.LOSS.NAME
-        for i in range(10):
-            fNum = i
-            new_check_dir = "loss_" + str(lchoice) + "_batchsize_" + str(bsize) + "_foldNum_" + str(fNum)
-    else:
-        bsize = config.EVAL.BATCH_SIZE
-        lchoice = config.LOSS.NAME
-        fNum = 2
-        new_check_dir = "loss_" + str(lchoice) + "_batchsize_" + str(bsize) + "_foldNum_" + str(fNum)
-        inference(config, new_check_dir)
+    if lchoice == 'mse':
+        new_check_dir = "loss_" + str(lchoice)
+        name='pre_train_model.zip'
+    elif lchoice == 'addl':
+        new_check_dir = "loss_" + str(lchoice)
+        name='pre_train_add_loss_model.zip'
+
+    inference(config, new_check_dir)
