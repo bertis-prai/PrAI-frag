@@ -14,7 +14,6 @@ from numpy.random import seed
 
 seed=20
 
-#seed(seed)
 torch.cuda.manual_seed(seed)
 
 random.seed(seed)
@@ -73,7 +72,7 @@ def seqtoonehot(seq, is_multiple=True):
 
     return seq_df
 
-def calc_mass_charge_ce(aaseq, charge, ce, is_multiple=False):
+def calc_mass_charge_ce(aaseq, charge, ce):
     leng = []
     pros = []
 
@@ -96,12 +95,12 @@ def calc_mass_charge_ce(aaseq, charge, ce, is_multiple=False):
     df['f_length'] = leng
     df['f_proline'] = pros
 
+    return df
+
 
 def data_divide(input_df,x_cols,y_cols,x_feat, kfold = 10, fold_num = 0): #input file in df, column index(names) of the x_cols, y_cols, and x_feature
     cv = KFold(n_splits=kfold, random_state=20, shuffle=True)
-    look = cv.split(input_df)
 
-    # print(look)
     for index, (t, v) in enumerate(cv.split(input_df)):
         if fold_num == index:
             print(index,fold_num)
@@ -119,9 +118,7 @@ def data_divide(input_df,x_cols,y_cols,x_feat, kfold = 10, fold_num = 0): #input
             val_x_feat2 = window_as_feat(val_x)
             val_y = val_cv.loc[:, y_cols]
             val_seq = val_cv.loc[:, 'Pepseq']
-            # pd.concat([val_seq, val_x_feat, val_y], axis=1).to_csv('fold_2_val.csv', index=False)
-        #pepseq = input_df['pepcharge']
-    print(index, fold_num, train_x.shape,val_x.shape, train_x_feat2.shape,val_x_feat2.shape,)
+            
     return train_x,train_y,train_x_feat,train_x_feat2, val_x,val_x_feat,val_x_feat2, val_y, train_seq, val_seq
 
 
@@ -193,7 +190,7 @@ def input_params(config, input_df_file, kfold=10, fold_num=2):
 def infer_input_params(input_df):
     seq, charge, ce = input_df['Peptide'].tolist(), input_df['Charge'].tolist(), input_df['CE'].tolist()
     cal_df = calc_mass_charge_ce(seq, charge, ce, is_multiple=True)
-
+    print(cal_df)
     x_feat_names = [i for i in cal_df if i.startswith('f')]
 
     x = seqtoonehot(seq, is_multiple=True)
@@ -203,14 +200,9 @@ def infer_input_params(input_df):
     x_feat = np.asarray(x_feat.values, dtype=np.float)
     x_feat2 = window_as_feat(x)
 
-    if torch.cuda.is_available():
-        x = torch.cuda.LongTensor(x)
-        x_feat = torch.cuda.FloatTensor(x_feat)
-        x_feat2 = torch.cuda.FloatTensor(x_feat2)
-    else:
-        x = torch.LongTensor(x)
-        x_feat = torch.FloatTensor(x_feat)
-        x_feat2 = torch.FloatTensor(x_feat2)
+    x = torch.LongTensor(x)
+    x_feat = torch.FloatTensor(x_feat)
+    x_feat2 = torch.FloatTensor(x_feat2)
 
     cal_input_df = cal_df[['Peptide', 'f_charge', 'f_ce']]
     cal_input_df.columns = ['Peptide', 'Charge', 'CE']
