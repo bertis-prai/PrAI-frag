@@ -47,7 +47,6 @@ def inference(config, new_check_dir, name):
         pred_df = pd.DataFrame(prediction, columns=frag_list)
         pred_df = pd.concat([infer_df, pred_df], axis=1)
 
-        print(config.INFER_DATA.replace('.csv', '_pred.csv'))
         pred_df.to_csv(config.INFER_DATA.replace('.csv', '_pred.csv'), index=False)
 
 
@@ -63,4 +62,4 @@ if __name__=="__main__":
         new_check_dir = "loss_" + str(lchoice)
         name='pre_train_add_loss_model.zip'
 
-    inference(config, new_check_dir)
+    inference(config, new_check_dir, name)
