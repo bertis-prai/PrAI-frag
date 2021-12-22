@@ -189,7 +189,7 @@ def input_params(config, input_df_file, kfold=10, fold_num=2):
 
 def infer_input_params(input_df):
     seq, charge, ce = input_df['Peptide'].tolist(), input_df['Charge'].tolist(), input_df['CE'].tolist()
-    cal_df = calc_mass_charge_ce(seq, charge, ce, is_multiple=True)
+    cal_df = calc_mass_charge_ce(seq, charge, ce)
     print(cal_df)
     x_feat_names = [i for i in cal_df if i.startswith('f')]
 
