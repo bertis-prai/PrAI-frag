@@ -22,6 +22,24 @@ def find_index(data, target):
     return res
 
 
+def parse_result(df):
+    frag_list = []
+    for i in range(1,15):
+        frag_list.append('y{}'.format(i))
+        for j in [2, 3]:
+            frag_list.append('y{}^{}'.format(i, j))
+
+    for i in range(len(df)):
+        if df.at[i, 'Charge'] == 1:
+            df.loc[i, [f for f in frag_list if ('^2' in f) or ('^3' in f)]] = np.nan
+        elif df.at[i, 'Charge'] == 2:
+            df.loc[i, [f for f in frag_list if '^3' in f]] = np.nan
+
+        df.loc[i, [f for f in frag_list if int(f.split('^')[0].replace('y','')) >= len(df.at[i, 'Peptide'])]] = np.nan
+    
+    return df
+
+
 def inference(config, new_check_dir, name):
     checkpoint = get_initial_checkpoint(config, new_check_dir, name=name)
     model = torch.jit.load(checkpoint)
@@ -43,11 +61,13 @@ def inference(config, new_check_dir, name):
         prediction = model(x, x_feat, x_feat2)
 
         prediction = prediction.cpu().numpy()
+        prediction = np.where(prediction < 1e-4, 0, prediction)
 
         pred_df = pd.DataFrame(prediction, columns=frag_list)
         pred_df = pd.concat([infer_df, pred_df], axis=1)
+        pred_df = parse_result(pred_df)
 
-        pred_df.to_csv(config.INFER_DATA.replace('.csv', '_pred.csv'), index=False)
+        pred_df.to_csv(config.INFER_DATA.replace('.csv', '_pred.csv'), index=False, float_format='%.4f')
 
 
 if __name__=="__main__":
