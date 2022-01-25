@@ -66,7 +66,7 @@ Second, you should fill in <code>config.yaml</code>, if you want to infer your d
 
  ...
  
- INFER_DATA: '' # <-- fill in path of your data
+ INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data
 </code></pre>
 <br>
 Third, run <code>inference.py</code> on console.<br>
