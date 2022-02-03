@@ -128,13 +128,13 @@ Third, run the calculating cell.
   <td>AAAAAAAAAR</td><td>2</td><td></td>
  </tr>
  <tr>
-  <td>AAAAAAAVSR</td><td></td><td></td>
+  <td>AAAAAAAVSR</td><td>2</td><td></td>
  </tr>
  <tr>
   <td>...</td><td>...</td><td>...</td>
  </tr>
  <tr>
-  <td>AAAACLDK</td><td></td><td></td>
+  <td>AAAACLDK</td><td>2</td><td></td>
  </tr>
 </table>
 
