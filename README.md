@@ -97,4 +97,4 @@ And Then <code>(your input file name)_pred.csv</code> will be created at <code>(
 <br>
 <br>
 <h4>Calculate PCC</h4>
-First, open <code>(workplace)/src/result_PCC.ipynb<code> on your jupyter notebook.<br>
+First, open <code>(workplace)/src/result_PCC.ipynb</code> on your jupyter notebook.<br>
