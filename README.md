@@ -130,5 +130,23 @@ Third, run the calculating cell.
 # get_pcc(target, pred)
 
 </code></pre>
-<code>get_pcc(target, pred)</code> creates PCC data frame.
+<code>get_pcc(target, pred)</code> creates PCC data frame.<br>
+<table>
+ <th>Peptide</th><th>Charge</th><th>PCC</th>
+ <tr>
+  <td>AAAAAAAAAK</td><td>2</td><td></td>
+ </tr>
+ <tr>
+  <td>AAAAAAAAAR</td><td>2</td><td></td>
+ </tr>
+ <tr>
+  <td>AAAAAAAVSR</td><td></td><td></td>
+ </tr>
+ <tr>
+  <td>...</td><td>...</td><td>...</td>
+ </tr>
+ <tr>
+  <td>AAAACLDK</td><td></td><td></td>
+ </tr>
+</table>
 
