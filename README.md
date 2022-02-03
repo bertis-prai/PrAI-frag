@@ -74,7 +74,7 @@ Third, run <code>inference.py</code> on console.<br>
 python worksapce/src/inference.py
 
 </code></pre>
-And Then <code>(your input file name)_pred.csv</code> will be created.
+And Then <code>(your input file name)_pred.csv</code> will be created at <code>(your input file path)/(your input file name)_pred.csv</code>.
 <table>
  <th>Peptide</th><th>Charge</th><th>CE</th><th>y1</th><th>y1^2</th><th>...</th><th>y14^2</th>
  <tr>
