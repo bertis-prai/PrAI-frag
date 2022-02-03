@@ -65,8 +65,7 @@ Second, you should fill in <code>config.yaml</code>, if you want to infer your d
  
  INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data</code></pre>
 Third, run <code>inference.py</code> on console.<br>
-<pre><code>
-python worksapce/src/inference.py</code></pre>
+<pre><code>python worksapce/src/inference.py</code></pre>
 
 And Then <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
 <table>
