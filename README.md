@@ -109,7 +109,7 @@ Second, fill in path of data.
   <code>Charge</code>.
  </li>
  <li>The order of the target data's row and the order of the prediction data's row should be the same.</li>
- <li>target file of testset(NIST_rat) is located <code>/data/Testset_data(NIST_rat)_target.csv</code></li>
+ <li>The target file of testset(NIST_rat) is located <code>/data/Testset_data(NIST_rat)_target.csv</code>.</li>
 </ul>
 <pre><code>
  ''' 
