@@ -74,7 +74,7 @@ Third, run <code>inference.py</code> on console.<br>
 python worksapce/src/inference.py
 
 </code></pre>
-And Then <code>(your input file name)_pred.csv</code> will be created at <code>(your input file path)/(your input file name)_pred.csv</code>.
+And Then <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
 <table>
  <th>Peptide</th><th>Charge</th><th>CE</th><th>y1</th><th>y1^2</th><th>...</th><th>y14^2</th>
  <tr>
@@ -97,7 +97,7 @@ And Then <code>(your input file name)_pred.csv</code> will be created at <code>(
 <br>
 <br>
 <h4>Calculate PCC</h4>
-First, open <code>(workplace)/src/result_PCC.ipynb</code> on your jupyter notebook.
+First, open <code>{workplace}/src/result_PCC.ipynb</code> on your jupyter notebook.
 <br>
 <br>
 Second, fill in path of data.
@@ -109,3 +109,13 @@ Second, fill in path of data.
   <code>Charge</code>.
  </li>
  <li>The order of the target data's row and the order of the prediction data's row should be the same.</li>
+</ul>
+<pre><code>
+ ''' 
+ Read target data & predction data
+     - The order of the target data'row and the order of prediction data'row
+       should be same.
+ '''
+# target = pd.read_csv("{your target file's path}")
+# pred = pd.read_csv("{your prediction file's path}")
+</code></pre>
