@@ -93,3 +93,7 @@ And Then <code>(your input file name)_pred.csv</code> will be created at <code>(
   <td>AAAACLDK</td><td>2</td><td>26.1567</td><td></td><td></td><td>...</td><td></td>
  </tr>
 </table>
+
+<br>
+<br>
+<h4>Calculate pcc</h4>
