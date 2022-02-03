@@ -98,7 +98,7 @@ And Then <code>{your input file name}_pred.csv</code> will be created at <code>{
 <br>
 <h4>Calculate PCC</h4>
 First, open <code>{workplace}/src/result_PCC.ipynb</code> on your jupyter notebook.
-<br>
+
 <br>
 Second, fill in path of data.
 <ul>
@@ -118,4 +118,17 @@ Second, fill in path of data.
  '''
 # target = pd.read_csv("{your target file's path}")
 # pred = pd.read_csv("{your prediction file's path}")
+
 </code></pre>
+
+<br>
+Third, run the calculating cell.
+<pre><code>
+ '''
+ Calculte PCC and create table
+ '''
+# get_pcc(target, pred)
+
+</code></pre>
+<code>get_pcc(target, pred)</code> creates PCC data frame.
+
