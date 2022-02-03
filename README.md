@@ -63,11 +63,11 @@ Second, you should fill in <code>config.yaml</code>, if you want to infer your d
 
  ...
  
- INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data
-</code></pre>Third, run <code>inference.py</code> on console.<br>
+ INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data</code></pre>
+Third, run <code>inference.py</code> on console.<br>
 <pre><code>
-python worksapce/src/inference.py
-</code></pre>
+python worksapce/src/inference.py</code></pre>
+
 And Then <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
 <table>
  <th>Peptide</th><th>Charge</th><th>CE</th><th>y1</th><th>y1^2</th><th>...</th><th>y14^2</th>
@@ -111,16 +111,14 @@ Second, fill in path of data.
        should be same.
  '''
 # target = pd.read_csv("{your target file's path}")
-# pred = pd.read_csv("{your prediction file's path}")
-</code></pre>
+# pred = pd.read_csv("{your prediction file's path}")</code></pre>
 
 <br>
 Third, run the calculating cell.
 <pre><code> '''
  Calculte PCC and create table
  '''
-# get_pcc(target, pred)
-</code></pre>
+# get_pcc(target, pred)</code></pre>
 <code>get_pcc(target, pred)</code> returns PCC data frame.<br>
 <table>
  <th>Peptide</th><th>Charge</th><th>PCC</th>
