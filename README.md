@@ -97,4 +97,15 @@ And Then <code>(your input file name)_pred.csv</code> will be created at <code>(
 <br>
 <br>
 <h4>Calculate PCC</h4>
-First, open <code>(workplace)/src/result_PCC.ipynb</code> on your jupyter notebook.<br>
+First, open <code>(workplace)/src/result_PCC.ipynb</code> on your jupyter notebook.
+<br>
+<br>
+Second, fill in path of data.
+<ul>
+ <li>File type should be <code>*.csv</code></li>
+ <li>
+  File must have 2 columns named 
+  <code>Peptide</code>,
+  <code>Charge</code>.
+ </li>
+ <li>The order of the target data's row and the order of the prediction data's row should be the same.</li>
