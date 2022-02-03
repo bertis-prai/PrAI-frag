@@ -21,9 +21,7 @@ You can run the pre-trained model on
 <h2>How to Use</h2>
 <h4>Training</h4>
 if you want to train model, you just run <code>training.py</code> on console.<br>
-<pre><code>
-python worksapce/src/training.py
-
+<pre><code>python worksapce/src/training.py
 </code></pre>
 Trained models will be saved in <code>logs/</code>.
 <br>
@@ -61,18 +59,14 @@ First, check your data format.
 </table>
 <br>
 Second, you should fill in <code>config.yaml</code>, if you want to infer your data.
-<pre><code>
- ### INPUT ###
+<pre><code> ### INPUT ###
 
  ...
  
  INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data
-</code></pre>
-<br>
-Third, run <code>inference.py</code> on console.<br>
+</code></pre>Third, run <code>inference.py</code> on console.<br>
 <pre><code>
 python worksapce/src/inference.py
-
 </code></pre>
 And Then <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
 <table>
@@ -111,25 +105,21 @@ Second, fill in path of data.
  <li>The order of the target data's row and the order of the prediction data's row should be the same.</li>
  <li>The target file of testset(NIST_rat) is located <code>/data/Testset_data(NIST_rat)_target.csv</code>.</li>
 </ul>
-<pre><code>
- ''' 
+<pre><code> ''' 
  Read target data & predction data
      - The order of the target data'row and the order of prediction data'row
        should be same.
  '''
 # target = pd.read_csv("{your target file's path}")
 # pred = pd.read_csv("{your prediction file's path}")
-
 </code></pre>
 
 <br>
 Third, run the calculating cell.
-<pre><code>
- '''
+<pre><code> '''
  Calculte PCC and create table
  '''
 # get_pcc(target, pred)
-
 </code></pre>
 <code>get_pcc(target, pred)</code> returns PCC data frame.<br>
 <table>
