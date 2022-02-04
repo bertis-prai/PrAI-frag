@@ -20,15 +20,16 @@ You can run the pre-trained model on
 
 <h2>How to Use</h2>
 <h4>Training</h4>
-if you want to train model, you just run <code>training.py</code> on console.<br>
-<pre><code>python worksapce/src/training.py
+if you want to reproduce the results in the manuscript just run <code>training.py</code> on console.<br>
+if you want to train with different data, make changes in the trianing file from the config.yaml. Trianing file should be in the same format as the original csv file.  
 </code></pre>
 Trained models will be saved in <code>logs/</code>.
 <br>
 <br>
 
 <h4>Inference</h4>
-First, check your data format.
+To predict using the PrAI-frag, you can either use the webiste or use the provided "inference.py".
+The input file should be in the following format.
 <ul>
  <li>File type should be <code>*.csv</code></li>
  <li>
@@ -67,7 +68,7 @@ Second, you should fill in <code>config.yaml</code>, if you want to infer your d
 Third, run <code>inference.py</code> on console.<br>
 <pre><code>python worksapce/src/inference.py</code></pre>
 
-And Then <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
+If run was successful, <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
 <table>
  <th>Peptide</th><th>Charge</th><th>CE</th><th>y1</th><th>y1^2</th><th>...</th><th>y14^2</th>
  <tr>
