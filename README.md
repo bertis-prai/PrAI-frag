@@ -28,7 +28,7 @@ Trained models will be saved in <code>logs/</code>.
 <br>
 
 <h4>Inference</h4>
-To predict using the PrAI-frag, you can either use the webiste or use the provided "inference.py".
+To predict using the PrAI-frag, you can either use the webiste or use the provided <code>inference.py</code>.
 The input file should be in the following format.
 <ul>
  <li>File type should be <code>*.csv</code></li>
