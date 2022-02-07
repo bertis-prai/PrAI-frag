@@ -122,7 +122,6 @@ parsing Prosit & MS2PIP result file, if you need
 ### Prosit result
 # prosit_result = pd.read_csv("{path of prosit result}")
 # parsed_prosit_result = parse_prosit_result(prosit_result)
-
 ### MS2PIP
 # ms2pip_result = pd.read_csv("{path of ms2pip result}")
 # parsed_ms2pip_result = parse_ms2pip_result(ms2pip_result)</code></pre>
