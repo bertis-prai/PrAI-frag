@@ -114,7 +114,6 @@ Second, fill in path of data.
  '''
 # target = pd.read_csv("{your target file's path}")
 # pred = pd.read_csv("{your prediction file's path}")</code></pre>
-<br>
 You can parse data, if you use Prosit & MS2PIP result.
 <pre><code>'''
 parsing Prosit & MS2PIP result file, if you need
