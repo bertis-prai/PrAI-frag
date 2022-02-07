@@ -16,7 +16,8 @@ You can run the pre-trained model on
  <li>pyYAML ver. 5.4.1</li>
  <li>easydict ver. 1.9</li>
 </ul>
-<code>pip install -r requirements.txt</code>
+Run <code>pip install -r requirements.txt</code> in terminal, if you want to install enviroment.
+<br>
 <br>
 
 <h2>How to Use</h2>
