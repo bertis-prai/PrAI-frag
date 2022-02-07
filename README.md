@@ -22,15 +22,15 @@ Run <code>pip install -r requirements.txt</code> in terminal, if you want to ins
 
 <h2>How to Use</h2>
 <h4>Training</h4>
-if you want to reproduce the results in the manuscript just run <code>training.py</code> on console.<br>
-if you want to train with different data, make changes in the trianing file from the config.yaml. Trianing file should be in the same format as the original csv file.  
+To reproduce the results in the manuscript just run <code>training.py</code> on console.<br>
+To train with different data, make changes in the trianing file from the config.yaml. Trianing file should be in the same format as the original csv file.  
 </code></pre>
 Trained models will be saved in <code>logs/</code>.
 <br>
 <br>
 
 <h4>Inference</h4>
-To predict using the PrAI-frag, you can either use the webiste or use the provided <code>inference.py</code>.
+To predict using the PrAI-frag, either use the webiste or use the provided <code>inference.py</code>.
 The input file should be in the following format.
 <ul>
  <li>File type should be <code>*.csv</code></li>
@@ -61,13 +61,13 @@ The input file should be in the following format.
  </tr>
 </table>
 <br>
-Second, you should fill in <code>config.yaml</code>, if you want to infer your data.
+To infer a different data fill in <code>config.yaml</code> .
 <pre><code> ### INPUT ###
 
  ...
  
  INFER_DATA: '{your workspace}/input/Testset_data(NIST-rat).csv' # <-- use dafault testset or fill in path of your data</code></pre>
-Third, run <code>inference.py</code> on console.<br>
+Run <code>inference.py</code> on console.<br>
 <pre><code>python worksapce/src/inference.py</code></pre>
 
 If run was successful, <code>{your input file name}_pred.csv</code> will be created at <code>{your input file path}/{your input file name}_pred.csv</code>.
@@ -93,10 +93,10 @@ If run was successful, <code>{your input file name}_pred.csv</code> will be crea
 <br>
 <br>
 <h4>Calculate PCC</h4>
-First, open <code>{workplace}/src/result_PCC.ipynb</code> on your jupyter notebook.
+First, open <code>{workplace}/src/result_PCC.ipynb</code> on with Jupyter notebook.
 
 <br>
-Second, fill in path of data.
+Second, fill in the data path.
 <ul>
  <li>File type should be <code>*.csv</code></li>
  <li>
