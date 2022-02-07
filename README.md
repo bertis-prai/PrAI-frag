@@ -114,6 +114,18 @@ Second, fill in path of data.
  '''
 # target = pd.read_csv("{your target file's path}")
 # pred = pd.read_csv("{your prediction file's path}")</code></pre>
+<br>
+You can parse data, if you use Prosit & MS2PIP result.
+<pre><code>'''
+parsing Prosit & MS2PIP result file, if you need
+'''
+### Prosit result
+# prosit_result = pd.read_csv("{path of prosit result}")
+# parsed_prosit_result = parse_prosit_result(prosit_result)
+
+### MS2PIP
+# ms2pip_result = pd.read_csv("{path of ms2pip result}")
+# parsed_ms2pip_result = parse_ms2pip_result(ms2pip_result)</code></pre>
 
 <br>
 Third, run the calculating cell.
