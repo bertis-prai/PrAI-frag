@@ -73,6 +73,7 @@ def seqtoonehot(seq, is_multiple=True):
     return seq_df
 
 def calc_mass_charge_ce(aaseq, charge, ce):
+    nce = 29
     leng = []
     pros = []
 
@@ -84,7 +85,13 @@ def calc_mass_charge_ce(aaseq, charge, ce):
         if math.isnan(ce[i]): 
             ms = mass.calculate_mass(sequence=seq)
             mz = ms / charge[i]
-            ce[i] = (mz -206.6118761) / 12.24329778
+            
+            if round(charge[i]) == 1: charge_factor = 1
+            elif round(charge[i]) == 2: charge_factor = 0.9
+            elif round(charge[i]) == 3: charge_factor = 0.85
+            elif round(charge[i]) == 4: charge_factor = 0.8
+            ce[i] = nce * mz / 500 * charge_factor
+            
         charge[i] = round(charge[i])
         leng.append(len(seq))
         pros.append(seq.count('P'))
